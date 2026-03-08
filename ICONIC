@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dipjyoti</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600;800&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --gold: #C9A84C;
+      --gold-light: #E8CB7A;
+      --gold-dark: #8B6914;
+      --deep: #0A0A0F;
+      --surface: #111118;
+      --surface2: #1A1A24;
+      --text: #F0EAD6;
+      --text-muted: #9A9070;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--deep);
+      color: var(--text);
+      font-family: 'Raleway', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.35;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 4rem;
+      background: linear-gradient(to bottom, rgba(10,10,15,0.95), transparent);
+    }
+
+    .nav-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 3rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(201,168,76,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201,168,76,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 80% 20%, rgba(201,168,76,0.05) 0%, transparent 60%);
+    }
+
+    .ray {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 1px;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(201,168,76,0.3), transparent);
+      transform-origin: top center;
+      animation: rayRotate 8s ease-in-out infinite;
+    }
+    .ray:nth-child(2) { animation-delay: -2s; transform: rotate(15deg); }
+    .ray:nth-child(3) { animation-delay: -4s; transform: rotate(-15deg); }
+    .ray:nth-child(4) { animation-delay: -6s; transform: rotate(30deg); }
+    .ray:nth-child(5) { animation-delay: -1s; transform: rotate(-30deg); }
+
+    @keyframes rayRotate {
+      0%, 100% { opacity: 0.15; }
+      50% { opacity: 0.45; }
+    }
+
+    .ornament {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border: 1px solid rgba(201,168,76,0.08);
+      border-radius: 50%;
+      animation: spin 30s linear infinite;
+    }
+    .ornament::before {
+      content: '';
+      position: absolute;
+      inset: 20px;
+      border: 1px solid rgba(201,168,76,0.05);
+      border-radius: 50%;
+    }
+    .ornament::after {
+      content: '';
+      position: absolute;
+      inset: 40px;
+      border: 1px solid rgba(201,168,76,0.03);
+      border-radius: 50%;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .hero-tagline {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 0.3s;
+    }
+
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(4rem, 10vw, 9rem);
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      line-height: 0.9;
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 40%, var(--gold-dark) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 0.6s;
+    }
+
+    .hero-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      font-style: italic;
+      font-weight: 300;
+      color: var(--text-muted);
+      margin-top: 1.5rem;
+      letter-spacing: 0.1em;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 0.9s;
+    }
+
+    .hero-divider {
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      margin: 2rem auto;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 1.1s;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      padding: 0.9rem 3rem;
+      border: 1px solid var(--gold);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.4s;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 1.3s;
+    }
+
+    .hero-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--gold);
+      transform: translateX(-101%);
+      transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    .hero-cta:hover { color: var(--deep); }
+    .hero-cta:hover::before { transform: translateX(0); }
+    .hero-cta span { position: relative; z-index: 1; }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards 2s;
+    }
+
+    .scroll-indicator span {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
+      50% { opacity: 1; transform: scaleY(1); }
+    }
+
+    section {
+      padding: 8rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 600;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+
+    .section-body {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      line-height: 1.9;
+      color: var(--text-muted);
+      max-width: 600px;
+    }
+
+    .about {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+      border-top: 1px solid rgba(201,168,76,0.1);
+    }
+
+    .about-visual {
+      position: relative;
+      aspect-ratio: 3/4;
+    }
+
+    .about-frame {
+      position: absolute;
+      inset: 0;
+      background: var(--surface2);
+      border: 1px solid rgba(201,168,76,0.15);
+    }
+
+    .about-frame::before {
+      content: '';
+      position: absolute;
+      inset: 16px;
+      border: 1px solid rgba(201,168,76,0.07);
+    }
+
+    .about-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 40% 30%, rgba(201,168,76,0.1), transparent 70%);
+    }
+
+    .about-letter {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cinzel', serif;
+      font-size: 8rem;
+      font-weight: 800;
+      color: rgba(201,168,76,0.15);
+      letter-spacing: 0.05em;
+    }
+
+    .about-corner {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-color: var(--gold);
+      border-style: solid;
+      opacity: 0.5;
+    }
+    .about-corner.tl { top: 8px; left: 8px; border-width: 1px 0 0 1px; }
+    .about-corner.tr { top: 8px; right: 8px; border-width: 1px 1px 0 0; }
+    .about-corner.bl { bottom: 8px; left: 8px; border-width: 0 0 1px 1px; }
+    .about-corner.br { bottom: 8px; right: 8px; border-width: 0 1px 1px 0; }
+
+    .services-wrap {
+      border-top: 1px solid rgba(201,168,76,0.1);
+    }
+
+    .services-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 4rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .service-card {
+      background: var(--surface);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s;
+      cursor: default;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, var(--gold-dark), var(--gold-light), var(--gold-dark));
+      transform: scaleX(0);
+      transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    .service-card:hover { background: var(--surface2); }
+    .service-card:hover::before { transform: scaleX(1); }
+
+    .service-num {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      opacity: 0.6;
+      margin-bottom: 2rem;
+    }
+
+    .service-icon {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .service-name {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+    }
+
+    .service-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+    }
+
+    .stats-band {
+      background: var(--surface);
+      border-top: 1px solid rgba(201,168,76,0.1);
+      border-bottom: 1px solid rgba(201,168,76,0.1);
+      padding: 5rem 4rem;
+    }
+
+    .stats-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'Cinzel', serif;
+      font-size: 3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .testimonial-section {
+      text-align: center;
+      border-top: 1px solid rgba(201,168,76,0.1);
+    }
+
+    .testimonial-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      font-style: italic;
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--text);
+      max-width: 800px;
+      margin: 2rem auto;
+    }
+
+    .testimonial-author {
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .quote-mark {
+      font-family: 'Cinzel', serif;
+      font-size: 6rem;
+      line-height: 0.5;
+      color: rgba(201,168,76,0.15);
+      display: block;
+    }
+
+    .cta-section {
+      text-align: center;
+      border-top: 1px solid rgba(201,168,76,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(201,168,76,0.08), transparent);
+      pointer-events: none;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      margin-top: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      padding: 1rem 3.5rem;
+      background: var(--gold);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--deep);
+      text-decoration: none;
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      display: inline-block;
+      padding: 1rem 3.5rem;
+      border: 1px solid rgba(201,168,76,0.4);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: border-color 0.3s, color 0.3s, transform 0.3s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    footer {
+      background: var(--surface);
+      border-top: 1px solid rgba(201,168,76,0.1);
+      padding: 4rem;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .footer-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+    }
+
+    .footer-copy {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 900px) {
+      nav { padding: 1.5rem 2rem; }
+      .nav-links { display: none; }
+      section { padding: 5rem 2rem; }
+      .about { grid-template-columns: 1fr; gap: 3rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .stats-inner { grid-template-columns: repeat(2,1fr); }
+      .services-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      footer { padding: 3rem 2rem; }
+      .footer-inner { flex-direction: column; text-align: center; }
+      .footer-links { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#" class="nav-logo">Dipjyoti</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="ray"></div>
+    <div class="ray"></div>
+    <div class="ray"></div>
+    <div class="ray"></div>
+    <div class="ray"></div>
+    <div class="ornament"></div>
+    <p class="hero-tagline">Illuminating Excellence</p>
+    <h1 class="hero-title">Dipjyoti</h1>
+    <p class="hero-subtitle">Where brilliance meets purpose — light in every endeavour</p>
+    <div class="hero-divider"></div>
+    <a href="#about" class="hero-cta"><span>Discover More</span></a>
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </div>
+
+  <section id="about">
+    <div class="about reveal">
+      <div class="about-visual">
+        <div class="about-frame">
+          <div class="about-glow"></div>
+          <div class="about-letter">D</div>
+        </div>
+        <div class="about-corner tl"></div>
+        <div class="about-corner tr"></div>
+        <div class="about-corner bl"></div>
+        <div class="about-corner br"></div>
+      </div>
+      <div class="about-text">
+        <p class="section-label">Our Story</p>
+        <h2 class="section-title">Born from<br/>the flame of<br/>inspiration</h2>
+        <div class="hero-divider" style="margin:1.5rem 0; animation:none; opacity:1;"></div>
+        <p class="section-body">
+          Dipjyoti — meaning "the light of a lamp" — was founded on a singular belief: that every great endeavour carries within it a spark worth nurturing. We exist to amplify that spark into something truly radiant.
+          <br/><br/>
+          With a commitment to craftsmanship, creativity, and clarity, we bring vision to life with precision and grace.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" style="max-width:100%; padding-left:0; padding-right:0;">
+    <div class="services-wrap" style="padding: 8rem 4rem; max-width:1200px; margin:0 auto;">
+      <div class="services-header reveal">
+        <div>
+          <p class="section-label">What We Do</p>
+          <h2 class="section-title">Our Offerings</h2>
+        </div>
+        <p class="section-body" style="max-width:320px; font-size:1rem;">Each service crafted with the same devotion we bring to every facet of our work.</p>
+      </div>
+      <div class="services-grid reveal">
+        <div class="service-card">
+          <p class="service-num">01</p>
+          <div class="service-icon">✦</div>
+          <p class="service-name">Brand Strategy</p>
+          <p class="service-desc">We illuminate your brand's true identity — forging narratives that resonate deeply and endure beyond trends.</p>
+        </div>
+        <div class="service-card">
+          <p class="service-num">02</p>
+          <div class="service-icon">◈</div>
+          <p class="service-name">Creative Design</p>
+          <p class="service-desc">Visual languages crafted with intention. Every detail considered, every element purposeful and refined.</p>
+        </div>
+        <div class="service-card">
+          <p class="service-num">03</p>
+          <div class="service-icon">⬡</div>
+          <p class="service-name">Digital Experience</p>
+          <p class="service-desc">Seamless digital journeys that connect, engage, and leave an impression long after the screen goes dark.</p>
+        </div>
+        <div class="service-card">
+          <p class="service-num">04</p>
+          <div class="service-icon">◉</div>
+          <p class="service-name">Consulting</p>
+          <p class="service-desc">Strategic counsel drawn from expertise and experience, guiding your vision from conception to fruition.</p>
+        </div>
+        <div class="service-card">
+          <p class="service-num">05</p>
+          <div class="service-icon">❋</div>
+          <p class="service-name">Content Creation</p>
+          <p class="service-desc">Stories told with elegance — across mediums, formats, and channels that matter to your audience.</p>
+        </div>
+        <div class="service-card">
+          <p class="service-num">0
